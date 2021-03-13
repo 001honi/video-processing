@@ -4,6 +4,7 @@ from tqdm import tqdm
 import numpy as np
 import cv2
 import tqdm
+import time
 
 # Block Matching Parameters
 dfd="MSE" ; blockSize=(16,16) ; searchMethod=0 ; searchRange=15
@@ -22,12 +23,13 @@ text = ["Block Matching Algorithm",
 # Video Sequence
 gray = True
 path_inp = "foreman-orig.avi"
-path_out = "{}-{}-{}-{}.avi".format(dfd,blockSize,method,searchRange)
+path_out = "{}-size{}-{}-{}.avi".format(dfd,blockSize[0],method,searchRange)
 
 video = Video(path_inp)         
 video.read_frames(gray=gray)
 (H,W) = video.shape
-video.total_frame = 50
+
+start_time = time.time()
 for f in tqdm.tqdm(range(video.total_frame-1)):
 
     target = video.frames_inp[f]
@@ -41,6 +43,8 @@ for f in tqdm.tqdm(range(video.total_frame-1)):
     gui = video.visualize(target,anchor,motionField,anchorP,text)
     video.frames_out.append(gui)
 
-video.write(path_out,fps=30,gray=gray)
+elapsed_time = time.time() - start_time
+print(f"Elapsed time: {elapsed_time:.3f} secs")
+video.write(path_out,fps=12,gray=gray)
 
 
