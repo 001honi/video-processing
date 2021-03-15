@@ -112,6 +112,7 @@ class BlockMatching():
 
         for block in self.blocks:
             intensity = round(255 * block.mv_amp/Block.max_mv_amp) if self.motionIntensity else 255
+            intensity = 80 if intensity<80 else intensity
             (x2,y2) = block.mv[0]+block.center[0], block.mv[1]+block.center[1]
             cv2.arrowedLine(frame, block.center, (x2,y2), intensity, 1, tipLength=0.3)
         

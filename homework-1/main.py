@@ -7,6 +7,7 @@ import tqdm
 import time
 
 # Block Matching Parameters
+# ============================================================================================
 dfd=1 ; blockSize=(16,16) ; searchMethod=0 ; searchRange=15
 
 bm = BlockMatching(dfd=dfd,
@@ -18,21 +19,38 @@ bm = BlockMatching(dfd=dfd,
 # Title and Parameters Info    
 dfd = "MSE" if dfd else "MAD"
 method = "Exhaustive" if not searchMethod else "ThreeStep"
-text = ["Block Matching Algorithm",
-"DFD: {} | Block Size {} | {} | Search Range: {}".format(
+text = ["Block Matching Algorithm","DFD: {} | {} | {} Search Range: {}".format(
     dfd,blockSize,method,searchRange)]
 print(text)
 
-# Video Sequence
-gray = True ; predict_from_prev = True 
+# Import Video Sequence
+# ============================================================================================
+gray = True ; predict_from_prev = False 
 
 predict = "prev" if predict_from_prev else "orig"
 path_inp = "videos/foreman-orig.avi"
-path_out = "videos/{}-Size{}-{}-{}-{}.avi".format(dfd,blockSize[0],method,searchRange,predict)
+path_out = "videos/{}-Size{}-{}-{}-{}.mp4".format(dfd,blockSize[0],method,searchRange,predict)
 
 video = Video(path_inp)         
 video.read_frames(gray=gray)
 (H,W) = video.shape
+
+# Demo 
+# ============================================================================================
+anchor = video.frames_inp[72]
+target = video.frames_inp[78]
+
+bm.step(anchor,target)
+
+anchorP = bm.anchorP
+motionField = bm.motionField
+
+out = video.visualize(anchor,target,motionField,anchorP,text)
+cv2.imshow("Demo", out)
+cv2.waitKey(0)
+
+# Video Process
+# ============================================================================================
 
 start_time = time.time()
 

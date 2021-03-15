@@ -1,7 +1,6 @@
 import numpy as np
 import cv2
 
-
 class Video():
     FONT = cv2.FONT_HERSHEY_SIMPLEX
     BLUE = (255,0,0) 
@@ -46,31 +45,36 @@ class Video():
         print("[INFO] Video Import Completed")
 
     def visualize(self,anchor,target,motionField,anchorP,text):
-        h = 85 ; w = 25
+        """Put 4 frames together to show gui."""
+
+        h = 70 ; w = 10
         H,W = anchor.shape
-        HH,WW = 3*H-20, 2*W+35
+        HH,WW = h+2*H+20, 2*(W+w)
         frame = np.ones((HH,WW), dtype="uint8")*255
 
-        cv2.putText(frame, text[0], (10, 25), Video.FONT, 0.7, 0, 1)
-        cv2.putText(frame, text[1], (10, 45), Video.FONT, 0.3, 0, 1)
-        cv2.line(frame, (10, 52),(WW-10,52),0)
+        cv2.putText(frame, text[0], (w, 23), Video.FONT, 0.5, 0, 1)
+        # cv2.line(frame, (w, 27), (WW-w, 27),0)
 
-        cv2.putText(frame, "anchor", (10, h-10), Video.FONT, 0.4, 0, 1)
-        cv2.putText(frame, "target", (W+w, h-10), Video.FONT, 0.4, 0, 1)
-        cv2.putText(frame, "motion field", (10, h+H+15), Video.FONT, 0.4, 0, 1)
-        cv2.putText(frame, "predicted anchor", (W+w, h+H+15), Video.FONT, 0.4, 0, 1)
+        cv2.putText(frame, text[1], (w, 40), Video.FONT, 0.4, 0, 1)
+        cv2.line(frame, (w, 46), (WW-w, 46),0)
+        # cv2.line(frame, (w, h+2*H+20), (WW-w, h+2*H+20),0)
 
-        frame[h:h+H, 10:10+W] = anchor 
-        frame[h:h+H, W+w:2*W+w] = target 
-        frame[h+H+25:h+2*H+25, 10:10+W] = motionField 
-        frame[h+H+25:h+2*H+25, W+w:2*W+w] = anchorP 
+        cv2.putText(frame, "anchor", (w, h-4), Video.FONT, 0.4, 0, 1)
+        cv2.putText(frame, "target", (w+W, h-4), Video.FONT, 0.4, 0, 1)
+        cv2.putText(frame, "motion field", (w, h+2*H+10), Video.FONT, 0.4, 0, 1)
+        cv2.putText(frame, "predicted anchor", (w+W, h+2*H+10), Video.FONT, 0.4, 0, 1)
+
+        frame[h:h+H, w:w+W] = anchor 
+        frame[h:h+H, w+W:w+2*W] = target 
+        frame[h+H:h+2*H, w:w+W] = motionField 
+        frame[h+H:h+2*H, w+W:w+2*W] = anchorP 
 
         return frame
 
     def write(self, path="out.avi",fps=30):            
         H,W = self.frames_out[0].shape
-        fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-        writer = cv2.VideoWriter(path,fourcc,fps,(W,H),True)
+        # fourcc = cv2.VideoWriter_fourcc(*"DIVX")
+        writer = cv2.VideoWriter(path,-1,fps,(W,H),True)
         for frame in self.frames_out:
             if self.gray:
                 frame = cv2.cvtColor(frame,cv2.COLOR_GRAY2RGB)
