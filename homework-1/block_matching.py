@@ -182,7 +182,6 @@ class BlockMatching():
             block.mv = (x-block.coord[0],y-block.coord[1])
             block.calculate_mv_amp()
 
-
     def OneStepSearch(self,block,searchCoord,searchArea):
         """Three-Step Search helper function"""
 
