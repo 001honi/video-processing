@@ -195,7 +195,7 @@ class BlockMatching():
             block_t = self.target[y:y+h, x:x+w]
             # apply the best-match
             block.best_match = block_t
-            block.mv = (block.coord[0]-x,block.coord[1]-y)
+            block.mv = (x-block.coord[0],y-block.coord[1])
             block.calculate_mv_amp()
 
 
