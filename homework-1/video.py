@@ -14,6 +14,7 @@ class Video():
         self.frames_out = []
         self.total_frame = None
         self.shape = (None,None) # H,W
+        self.gray = False
 
     def read_frames(self,gray=False):
         """
@@ -35,6 +36,7 @@ class Video():
                 print("Error in Frame Read")
                 break
             if gray:
+                self.gray = True
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             if not self.shape[0]:
                 self.shape = frame.shape[:2]
@@ -43,7 +45,7 @@ class Video():
         
         print("[INFO] Video Import Completed")
 
-    def visualize(self,target,anchor,motionField,anchorP,text):
+    def visualize(self,anchor,target,motionField,anchorP,text):
         h = 85 ; w = 25
         H,W = anchor.shape
         HH,WW = 3*H-20, 2*W+35
@@ -53,24 +55,24 @@ class Video():
         cv2.putText(frame, text[1], (10, 45), Video.FONT, 0.3, 0, 1)
         cv2.line(frame, (10, 52),(WW-10,52),0)
 
-        cv2.putText(frame, "target", (10, h-10), Video.FONT, 0.4, 0, 1)
-        cv2.putText(frame, "anchor", (W+w, h-10), Video.FONT, 0.4, 0, 1)
+        cv2.putText(frame, "anchor", (10, h-10), Video.FONT, 0.4, 0, 1)
+        cv2.putText(frame, "target", (W+w, h-10), Video.FONT, 0.4, 0, 1)
         cv2.putText(frame, "motion field", (10, h+H+15), Video.FONT, 0.4, 0, 1)
         cv2.putText(frame, "predicted anchor", (W+w, h+H+15), Video.FONT, 0.4, 0, 1)
 
-        frame[h:h+H, 10:10+W] = target 
-        frame[h:h+H, W+w:2*W+w] = anchor 
+        frame[h:h+H, 10:10+W] = anchor 
+        frame[h:h+H, W+w:2*W+w] = target 
         frame[h+H+25:h+2*H+25, 10:10+W] = motionField 
         frame[h+H+25:h+2*H+25, W+w:2*W+w] = anchorP 
 
         return frame
 
-    def write(self, path="out.avi",fps=30,gray=False):            
+    def write(self, path="out.avi",fps=30):            
         H,W = self.frames_out[0].shape
         fourcc = cv2.VideoWriter_fourcc(*"MJPG")
         writer = cv2.VideoWriter(path,fourcc,fps,(W,H),True)
         for frame in self.frames_out:
-            if gray:
+            if self.gray:
                 frame = cv2.cvtColor(frame,cv2.COLOR_GRAY2RGB)
             writer.write(frame)
         print("[INFO] Video Export Completed")
