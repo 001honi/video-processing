@@ -1,3 +1,6 @@
+# Author: Selahaddin HONI
+# March, 2021
+# ============================================================================================
 from video import Video
 from block_matching import BlockMatching
 from tqdm import tqdm
