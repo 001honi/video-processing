@@ -17,8 +17,8 @@ class Block():
 
     def check_inside_frame(self,x,y):
         check = True
-        if x<Block.min[0] or x>Block.max[0] \
-            or y<Block.min[1] or y>Block.max[1]:
+        if x<0 or x>Block.max[0] \
+            or y<0 or y>Block.max[1]:
             check = False
         return check
 
@@ -31,7 +31,7 @@ class Block():
 
 class BlockMatching():
 
-    def __init__(self,dfd,blockSize,searchMethod,searchRange,motionIntensity=True):
+    def __init__(self,dfd,blockSize,searchMethod,searchRange):
         """
         dfd : {0:MAD, 1:MSE} Displaced frame difference 
         blockSize : {(sizeH,sizeW)}
@@ -43,7 +43,6 @@ class BlockMatching():
         self.blockSize = blockSize
         self.searchMethod = searchMethod 
         self.searchRange = searchRange
-        self.motionIntensity = motionIntensity
 
         # given frames
         self.anchor = None
@@ -111,7 +110,7 @@ class BlockMatching():
         frame = np.zeros(self.shape,dtype="uint8")           
 
         for block in self.blocks:
-            intensity = round(255 * block.mv_amp/Block.max_mv_amp) if self.motionIntensity else 255
+            intensity = round(255 * block.mv_amp/Block.max_mv_amp)
             (x2,y2) = block.mv[0]+block.center[0], block.mv[1]+block.center[1]
             cv2.arrowedLine(frame, block.center, (x2,y2), intensity, 1, tipLength=0.3)
         
@@ -124,10 +123,18 @@ class BlockMatching():
         searchArea = [r for r in itertools.product(dx,dy)]
 
         for block in self.blocks:
+            frame_a = np.zeros((self.shape), dtype="uint8")
+            frame_t = np.zeros((self.shape), dtype="uint8")
+
             # get block coordinates for anchor frame
             (x,y,w,h) = block.coord
             # extract the block from anchor frame
             block_a = self.anchor[y:y+h, x:x+w]
+
+            frame_a[y:y+h, x:x+w] = block_a
+
+            cv2.imshow("Anchor Predicted", frame_a)
+            cv2.waitKey(1)
 
             # displaced frame difference := initially infinity
             dfd_norm_min = np.Inf
@@ -143,6 +150,10 @@ class BlockMatching():
                 # extract the block from target frame
                 block_t = self.target[y:y+h, x:x+w]
 
+                frame_t[y:y+h, x:x+w] = block_t
+                cv2.imshow("EBMA Search", frame_t)
+                cv2.waitKey(1)
+
                 # calculate displaced frame distance
                 if self.mse:
                     dfd_norm = MSE(block_a,block_t)
@@ -154,6 +165,10 @@ class BlockMatching():
                     block.mv = (dx,dy)
                     block.calculate_mv_amp()
                     dfd_norm_min = dfd_norm
+
+                    frame_t[y:y+h, x:x+w] = block_t
+                    cv2.imshow("Anchor Predicted", frame_a)
+                    cv2.waitKey(1)
 
 
 
