@@ -47,7 +47,7 @@ class Video():
         
         print("[INFO] Video Import Completed")
 
-    def visualize(self,anchor,target,motionField,anchorP,text):
+    def visualize(self,anchor,target,motionField,anchorP,text,a,t):
         """Put 4 frames together to show gui."""
 
         h = 70 ; w = 10
@@ -56,14 +56,11 @@ class Video():
         frame = np.ones((HH,WW), dtype="uint8")*255
 
         cv2.putText(frame, text[0], (w, 23), Video.FONT, 0.5, 0, 1)
-        # cv2.line(frame, (w, 27), (WW-w, 27),0)
-
         cv2.putText(frame, text[1], (w, 40), Video.FONT, 0.4, 0, 1)
         cv2.line(frame, (w, 46), (WW-w, 46),0)
-        # cv2.line(frame, (w, h+2*H+20), (WW-w, h+2*H+20),0)
 
-        cv2.putText(frame, "anchor", (w, h-4), Video.FONT, 0.4, 0, 1)
-        cv2.putText(frame, "target", (w+W, h-4), Video.FONT, 0.4, 0, 1)
+        cv2.putText(frame, f"anchor-{a:03d}", (w, h-4), Video.FONT, 0.4, 0, 1)
+        cv2.putText(frame, f"target-{t:03d}", (w+W, h-4), Video.FONT, 0.4, 0, 1)
         cv2.putText(frame, "motion field", (w, h+2*H+10), Video.FONT, 0.4, 0, 1)
         cv2.putText(frame, "predicted anchor", (w+W, h+2*H+10), Video.FONT, 0.4, 0, 1)
 

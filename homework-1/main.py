@@ -17,7 +17,7 @@ bm = BlockMatching(dfd=dfd,
             blockSize=blockSize,
             searchMethod=searchMethod,
             searchRange=searchRange,
-            motionIntensity=True)
+            motionIntensity=False)
 
 # Title and Parameters Info    
 dfd = "MSE" if dfd else "MAD"
@@ -28,7 +28,7 @@ print(text)
 
 # Import Video Sequence
 # ============================================================================================
-gray = True ; predict_from_prev = True 
+gray = True ; predict_from_prev = False 
 
 predict = "prev" if predict_from_prev else "orig"
 path_inp = "videos/foreman-orig.avi"
@@ -40,52 +40,52 @@ video.read_frames(gray=gray)
 
 # Demo 
 # ============================================================================================
-# start_time = time.time()
+a = 72 ; t = 78
 
-# anchor = video.frames_inp[72]
-# target = video.frames_inp[78]
+start_time = time.time()
+anchor = video.frames_inp[a]
+target = video.frames_inp[t]
 
-# bm.step(anchor,target)
+bm.step(anchor,target)
 
-# anchorP = bm.anchorP
-# motionField = bm.motionField
+anchorP = bm.anchorP
+motionField = bm.motionField
 
-# out = video.visualize(anchor,target,motionField,anchorP,text)
+out = video.visualize(anchor,target,motionField,anchorP,text,a,t)
 
-# elapsed_time = time.time() - start_time
-# print(f"Elapsed time: {elapsed_time:.3f} secs")
+elapsed_time = time.time() - start_time
+print(f"Elapsed time: {elapsed_time:.3f} secs")
 
-# cv2.imshow("Demo",out)
-# cv2.waitKey(0)
-# cv2.imwrite("demo.png",out)
+cv2.imshow("Demo",out)
+cv2.waitKey(0)
+cv2.imwrite("demo.png",out)
 
 # Video Process
 # ============================================================================================
 
-start_time = time.time()
+# start_time = time.time()
 
-prev_prediction = None
-for f in tqdm.tqdm(range(video.total_frame-1)):
+# prev_prediction = None
+# for f in tqdm.tqdm(range(video.total_frame-1)):
 
-    if predict_from_prev:
-        anchor = video.frames_inp[f] if f==0 else prev_prediction
-    else:
-        anchor = video.frames_inp[f]
-    target = video.frames_inp[f+1]
+#     if predict_from_prev:
+#         anchor = video.frames_inp[f] if f==0 else prev_prediction
+#     else:
+#         anchor = video.frames_inp[f]
+#     target = video.frames_inp[f+1]
 
-    bm.step(anchor,target)
+#     bm.step(anchor,target)
 
-    anchorP = bm.anchorP
-    motionField = bm.motionField
+#     anchorP = bm.anchorP
+#     motionField = bm.motionField
 
-    out = video.visualize(anchor,target,motionField,anchorP,text)
-    video.frames_out.append(out)
+#     out = video.visualize(anchor,target,motionField,anchorP,text,f,f+1)
+#     video.frames_out.append(out)
 
-    if predict_from_prev:
-        prev_prediction = anchorP
+#     if predict_from_prev:
+#         prev_prediction = anchorP
 
-elapsed_time = time.time() - start_time
-print(f"Elapsed time: {elapsed_time:.3f} secs")
-video.write(path_out,fps=30)
-print(path_out)
-
+# elapsed_time = time.time() - start_time
+# print(f"Elapsed time: {elapsed_time:.3f} secs")
+# video.write(path_out,fps=30)
+# print(path_out)
