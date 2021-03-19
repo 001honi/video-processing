@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Report - S.Honi </title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+
+<body>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js'> </script>
+  
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+            <h1 class="title is-2">Block Matching Algorithm</h1>
+            <h2 class="subtitle is-5">Homework-1 | Digital Video Processing <br></h2> 
+            <h3 class="subtitle is-5">Selahaddin HONİ </h3> 
+      </div>
+    </div>
+  </section>
+
+  <section class="hero is-black is-small">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title is-5">Implementation</h1>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="content">
+        <br><p>
+          <a href="source/block_matching.py" target="_blank">BlockMatching()</a> class is written in Python. It takes 5 arguments: <br>
+          <ul>
+            <li><strong>dfd :</strong> {0:MAD, 1:MSE} Displaced frame difference </li>
+            <li><strong>blockSize :</strong> (sizeH,sizeW) </li>
+            <li><strong>searchMethod :</strong> {0:Exhaustive, 1:Three-Step} </li>
+            <li><strong>searchRange :</strong> (int) +/- pixelwise range </li>
+            <li><strong>motionIntensity:</strong> True (default) <br>
+               <i>Normalization for motion vector intensities. Assigns 255 to the largest amplitude motion vector. 
+                 Also, there is a threshold that intensity value cannot be less than 100.</i></li>
+          </ul>  
+          In main script, there are two more parameters to control the predictions:
+          <ul>
+            <li><strong>predict_from_prev :</strong> False (default) </li>
+            <li><strong>N :</strong> 5 (default)<br>
+              <i>If the predictions made from previous predicted frames, anchor is updated after N frames.</i></li>
+          </ul>  
+        </p>
+      </div>
+      <br>
+    </div>
+  </section>
+
+  <section class="hero is-black is-small">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title is-5">Observation</h1>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="content">
+        <br><p>
+          In this observation, the sequential <strong>frame difference</strong> is selected as 6 to show the motion vectors better. { Anchor : 72 , Target : 78 } <br><br>
+          Another observation here is the comparison of <strong>exhaustive search</strong> and <strong>three-step search</strong> methods. 
+          Exhaustive method is much more computationally expensive that program lasts approx. 1 second while the same program only takes 0.037 secs in fast method.  
+        </p>
+
+          <div class="level">
+            <div class="level-item">
+              <div>
+                <img src="assets/demo1.png">
+                <blockquote>>>>Elapsed time: 0.940 secs</blockquote>
+              </div>
+            </div>
+            <div class="level-item">
+              <div>
+                <img src="assets/demo2.png">
+                <blockquote>>>>Elapsed time: 0.037 secs</blockquote>
+              </div>
+            </div>
+           </div>
+
+           <br><p>
+            Below sample is clipped from end of the video and written as 3 frame per second, <strong>slow motion</strong>, to demonstrate how blocks are reorganized respect to motion vectors.
+            </p>
+            <div class="level">
+              <div class="level-item">
+                <div>
+                  <video controls autoplay loop>
+                    <source src="assets/MSE-Size16-ThreeStep-15-orig-3fps.mp4 " type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+      <br>
+    </div>
+  </section>
+
+
+  <section class="hero is-black is-small">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title is-5">Video Results of Predictions made from Original Video Frames</h1>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container">       
+            <br>
+            <div class="level">
+                <div class="level-item">
+                  <div>
+                    <video controls autoplay loop>
+                      <source src="assets/MSE-Size16-Exhaustive-15-orig.mp4 " type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+                <div class="level-item">
+                  <div>
+                    <video controls autoplay loop>
+                      <source src="assets/MSE-Size16-ThreeStep-15-orig.mp4 " type="video/mp4">
+                    </video>
+                  </div>
+                </div>   
+             </div>
+              <p>
+              It is clearly seen in above video samples, <strong>search range</strong> parameter takes a critical role to generate <strong>black box noise</strong>. 
+              If the actual motion in the sequence is not too fast, the search range can be decreased to <strong>suppress the noise</strong>. 
+              In the next example, search range is selected as 3.
+              </p><br>
+              <div class="level">
+                <div class="level-item">
+                  <div>
+                    <video controls autoplay loop>
+                      <source src="assets/MSE-Size16-ThreeStep-3-orig.mp4 " type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+              <br>
+  </section>
+
+
+  <section class="hero is-black is-small">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title is-5">Video Results of Predictions made from Previous Predicted Frames</h1>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container">       
+            <br>
+            <div class="level">
+                <div class="level-item">
+                  <div>
+                    <video controls autoplay loop>
+                      <source src="assets/MSE-Size16-Exhaustive-15-prev.mp4 " type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+                <div class="level-item">
+                  <div>
+                    <video controls autoplay loop>
+                      <source src="assets/MSE-Size16-ThreeStep-15-prev.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>   
+             </div>
+              <p>
+              Unfortunately, it is impossible to predict all other frames from only first anchor frame due to <strong>growing cumulative error</strong>. 
+              Therefore, after N frames are predicted from previous predicted frames,
+              the reference <strong>anchor frame is updated</strong>. (N=5, in this example, again search range is 3)
+              </p><br>
+              <div class="level">
+                <div class="level-item">
+                  <div>
+                    <video controls autoplay loop>
+                      <source src="assets/MSE-Size16-ThreeStep-3-prev.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+              <br>
+  </section>
+
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        March, 2021
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
