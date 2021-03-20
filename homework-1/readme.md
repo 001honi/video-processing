@@ -4,7 +4,7 @@
 ### [Report](https://001honi.github.io/static/projects/video-processing/block-matching/block_matching.html) follow this site for the results and more.
 
 ### Implementation
-BlockMatching() class is written in Python. It takes 5 arguments:
+_BlockMatching()_ class is written in Python. It takes 5 arguments:
 <ul>
             <li><strong>dfd :</strong> {0:MAD, 1:MSE} Displaced frame difference </li>
             <li><strong>blockSize :</strong> (sizeH,sizeW) </li>
