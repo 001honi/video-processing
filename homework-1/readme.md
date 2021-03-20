@@ -1,6 +1,7 @@
 # Homework-1
 ## Block Matching Algorithm
 
+### [Report](https://001honi.github.io/static/projects/video-processing/block-matching/block_matching.html) follow this site for the results and more.
 
 ### Implementation
 BlockMatching() class is written in Python. It takes 5 arguments:
@@ -20,5 +21,4 @@ In main script, there are two more parameters to control the predictions:
                <i>If the predictions made from previous predicted frames, anchor is updated after N frames.</i></li>
 </ul>  
 
-### [Report](https://001honi.github.io/static/projects/video-processing/block-matching/block_matching.html) follow this site for the results and more.
 
