@@ -21,4 +21,7 @@ In main script, there are two more parameters to control the predictions:
                <i>If the predictions made from previous predicted frames, anchor is updated after N frames.</i></li>
 </ul>  
 
+### Sample Result
+
+![sample](videos/sample.gif) <br>
 
