@@ -1,4 +1,4 @@
-# Author: Selahaddin HONI
+# Author: Selahaddin HONI | 001honi@github
 # March, 2021
 # ============================================================================================
 from video import Video
@@ -11,7 +11,7 @@ import time
 
 # Block Matching Parameters
 # ============================================================================================
-dfd=1 ; blockSize=(16,16) ; searchMethod=0 ; searchRange=15
+dfd=1 ; blockSize=(16,16) ; searchMethod=0 ; searchRange=15 ; predict_from_prev = False ; N=5 
 
 bm = BlockMatching(dfd=dfd,
             blockSize=blockSize,
@@ -28,8 +28,7 @@ print(text)
 
 # Import Video Sequence
 # ============================================================================================
-gray = True ; predict_from_prev = False 
-
+gray = True 
 predict = "prev" if predict_from_prev else "orig"
 path_inp = "videos/foreman-orig.avi"
 path_out = "videos/{}-Size{}-{}-{}-{}.mp4".format(dfd,blockSize[0],method,searchRange,predict)
@@ -62,14 +61,13 @@ cv2.imwrite("demo.png",out)
 
 # Video Process
 # ============================================================================================
-
 # start_time = time.time()
 
 # prev_prediction = None
 # for f in tqdm.tqdm(range(video.total_frame-1)):
 
 #     if predict_from_prev:
-#         anchor = video.frames_inp[f] if f==0 else prev_prediction
+#         anchor = video.frames_inp[f] if f%N == 0 else prev_prediction
 #     else:
 #         anchor = video.frames_inp[f]
 #     target = video.frames_inp[f+1]

@@ -1,4 +1,4 @@
-# Author: Selahaddin HONI
+# Author: Selahaddin HONI | 001honi@github
 # March, 2021
 # ============================================================================================
 from utils import MAD, MSE 
@@ -12,13 +12,13 @@ class Block():
     max_mv_amp = 0
 
     def __init__(self,x,y,w,h):
-        self.coord  = (x,y,w,h)
-        self.center = (x+w//2,y+h//2)
-        self.best_match = None
-        self.mv = (0,0)
-        self.mv_amp = 0
+        self.coord   = (x,y,w,h)
+        self.center  = (x+w//2,y+h//2)
+        self.mv      = (0,0)
+        self.mv_amp  = 0
 
     def check_inside_frame(self,x,y):
+        """check if the searched box inside the target frame"""
         check = True
         if x<Block.min[0] or x>Block.max[0] \
             or y<Block.min[1] or y>Block.max[1]:
@@ -26,6 +26,7 @@ class Block():
         return check
 
     def calculate_mv_amp(self):
+        """calculate L2 norm of motion-vector"""
         amp = (self.mv[0]**2 + self.mv[1]**2)**0.5
         if amp > Block.max_mv_amp:
             Block.max_mv_amp = amp
@@ -88,7 +89,8 @@ class BlockMatching():
         self.blocks = []
         for h in range(H//sizeH):
             for w in range(W//sizeW):
-                # initialize Block() objects with upper-left coordinates
+                # initialize Block() objects with 
+                # upper-left coordinates and block size
                 x = w*sizeW ; y = h*sizeH
                 self.blocks.append(Block(x,y,sizeW,sizeH))
 
@@ -98,19 +100,23 @@ class BlockMatching():
         Block.max = self.blocks[-1].coord
     
     def blocks2frame(self):
-        """Construct the predicted frame from the matching blocks"""
+        """Construct the predicted"""
         frame = np.zeros(self.shape,dtype="uint8")
 
         for block in self.blocks:
             # get block coordinates for anchor frame
             (x,y,w,h) = block.coord
-            # apply the matching block to output frame if any
-            if block.best_match is not None:
-                frame[y:y+h, x:x+w] = block.best_match
+            # extract the block from anchor frame
+            block_a = self.anchor[y:y+h, x:x+w]
+            # append motion-vector to prediction coordinates 
+            (x,y) = x+block.mv[0], y+block.mv[1]
+            # shift the block to new coordinates
+            frame[y:y+h, x:x+w] = block_a
 
         self.anchorP = frame
 
     def plot_motionField(self):
+        """Construct the motion field from motion-vectors"""
         frame = np.zeros(self.shape,dtype="uint8")           
 
         for block in self.blocks:
@@ -154,7 +160,7 @@ class BlockMatching():
                     dfd_norm = MAD(block_a,block_t)
 
                 if dfd_norm < dfd_norm_min:
-                    block.best_match = block_t
+                    # set the difference as motion-vector
                     block.mv = (dx,dy)
                     block.calculate_mv_amp()
                     dfd_norm_min = dfd_norm
@@ -175,10 +181,7 @@ class BlockMatching():
 
             # get best-match coordinates
             (x,y,w,h) = step3
-            # extract the block from target frame
-            block_t = self.target[y:y+h, x:x+w]
-            # apply the best-match
-            block.best_match = block_t
+            # set the difference as motion-vector
             block.mv = (x-block.coord[0],y-block.coord[1])
             block.calculate_mv_amp()
 

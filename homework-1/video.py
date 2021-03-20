@@ -1,4 +1,4 @@
-# Author: Selahaddin HONI
+# Author: Selahaddin HONI | 001honi@github
 # March, 2021
 # ============================================================================================
 import numpy as np
@@ -73,11 +73,14 @@ class Video():
 
     def write(self, path="out.avi",fps=30):            
         H,W = self.frames_out[0].shape
-        # fourcc = cv2.VideoWriter_fourcc(*"DIVX")
-        writer = cv2.VideoWriter(path,-1,fps,(W,H),True)
+        # fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+        fourcc = -1
+        writer = cv2.VideoWriter(path,fourcc,fps,(W,H),True)
         for frame in self.frames_out:
             if self.gray:
                 frame = cv2.cvtColor(frame,cv2.COLOR_GRAY2RGB)
             writer.write(frame)
         print("[INFO] Video Export Completed")
+
+        
         
