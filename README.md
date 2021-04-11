@@ -3,3 +3,9 @@
 
 ### [Homework-2:](https://001honi.github.io/repos/video-processing/optical-flow/report.html) <br>Implementation of Horn & Schunck Algorithm (Optical Flow)
 
+
+
+
+
+<br><br><br>
+Distributed under the MIT License. See `LICENSE` for more information.
