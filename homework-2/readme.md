@@ -1,6 +1,6 @@
 <br />
 <p align="center">
-  <h1 align="center">Motion Estimation</h2>
+  <h1 align="center">Motion Estimation</h1>
   
   <h2 align="center">Optical Flow — Horn & Schunck Algorithm</h2>
 
