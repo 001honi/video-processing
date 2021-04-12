@@ -1,7 +1,9 @@
 # Digital Video Processing 
-### [Homework-1:](https://001honi.github.io/repos/video-processing/block-matching/report.html) <br>Implementation of Block Matching Algorithm
+### [[Report]](https://001honi.github.io/repos/video-processing/block-matching/report.html) [[Source]](assets/homework-1)
+### Implementation of Block Matching Algorithm
 
-### [Homework-2:](https://001honi.github.io/repos/video-processing/optical-flow/report.html) <br>Implementation of Horn & Schunck Algorithm (Optical Flow)
+### [[Report]](https://001honi.github.io/repos/video-processing/optical-flow/report.html) [[Source]](assets/homework-2)
+### Implementation of Horn & Schunck Algorithm (Optical Flow)
 
 
 
