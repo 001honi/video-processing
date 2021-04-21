@@ -14,7 +14,7 @@ Optical flow vectors (u,v) were calculated over Horn & Schunck algorithm. Then, 
 
 I have used non-intelligent or in other words video-specific method to pick the relavant pixels. The woody region in the scene is static but appears as moving in the flow field due to camera motion. I thought, sampling pixels from this woody region is the simplest way to reach to the camera motion parameters.
 
-Last, motion compensation section is removed due to its poor performance. However, it can be found a sample in videos folder.
+Last, motion compensation section is removed due to its poor performance; however, a sample can be found in videos folder.
 
 Sorry for unorganized scripts, this time.
 
