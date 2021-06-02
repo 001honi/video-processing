@@ -9,6 +9,9 @@
 **Estimation of 2D Affine Motion Parameters** <br>
 [[Report]](https://001honi.github.io/repos/video-processing/affine-motion/report.html)  [[Source]](homework-3)  
 
+**Feature Pyramid Networks for Object Detection** <br>
+[[Presentation]](homework-4)  
+
 
 <br><br><br>
 Distributed under the MIT License. See `LICENSE` for more information.
